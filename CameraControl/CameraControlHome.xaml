@@ -1,0 +1,41 @@
+﻿<Page x:Class="CameraControl.CameraControlHome"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="CameraControl">
+
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="100" /> <!-- Rewind -->
+                <ColumnDefinition Width="100" /> <!-- Play -->
+                <ColumnDefinition Width="100" /> <!-- Pause -->
+                <ColumnDefinition Width="100" /> <!-- SlowMo-->
+                <ColumnDefinition Width="100" /> <!-- Fast Forward-->
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            
+            <Border Grid.Column="0" Grid.Row="0" Background="#aa0000">
+                <Label>Left placeholder!</Label>
+            </Border>
+            <Label Grid.Column="1" Grid.Row="0">Rewind</Label>
+            <Label Grid.Column="2" Grid.Row="0">Play</Label>
+            <Label Grid.Column="3" Grid.Row="0">Pause</Label>
+            <Label Grid.Column="4" Grid.Row="0">SlowMo</Label>
+            <Label Grid.Column="5" Grid.Row="0">FF</Label>
+            <Border Grid.Column="6" Grid.Row="0" Background="#0000aa">
+                <Label>Right placeholder!</Label>
+            </Border>
+        </Grid>
+
+
+    </Grid>
+</Page>
