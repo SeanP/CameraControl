@@ -41,16 +41,16 @@ namespace CameraControl
                 GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
         }
 
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            //base.OnClosing(e);
+            Application.Current.Shutdown(0);
+        }
+
         [DllImport("user32.dll")]
-        public static extern IntPtr SetWindowLong(IntPtr hWnd,
-
-                                                  int nIndex,
-
-                                                  int dwNewLong);
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll")]
-        public static extern int GetWindowLong(IntPtr hWnd,
-
-                                               int nIndex);
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
     }
 }

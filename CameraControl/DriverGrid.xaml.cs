@@ -177,7 +177,7 @@ namespace CameraControl
                                     d.CarClass = "GT2";
                                     break;
                                 default:
-                                    d.CarClass = "";
+                                    d.CarClass = Convert.ToString(di.CarClassID);
                                     break;
                             }
                             dl.Add(d);
