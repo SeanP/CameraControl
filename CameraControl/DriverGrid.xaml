@@ -7,8 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300"
              ItemsSource="{Binding Mode=OneWay}"
              AutoGenerateColumns="False" CanUserResizeRows="False" CanUserAddRows="False"
-             CanUserDeleteRows="False" IsReadOnly="True"  FontSize="14">
+             CanUserDeleteRows="False" IsReadOnly="True"  FontSize="14"
+          MouseDoubleClick="testDoubleClick">
 
+    
     <DataGrid.Columns>
         <DataGridTextColumn Header="#" Binding="{Binding Path=CarNumber}"/>
         <DataGridTextColumn Header="Pos" Binding="{Binding Path=Position}" SortDirection="Ascending"/>

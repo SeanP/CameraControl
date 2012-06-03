@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,14 +35,16 @@ namespace CameraControl
             Listener.DriverHandlers.Add(this as DriverInfoUpdateHandler);
             Listener.SessionHandlers.Add(this as SessionInfoUpdateHandler);
 
+            DriverList dl = new DriverList();
+            this.DataContext = dl;
+
             l = new Listener();
             listenerThread = new Thread(l.listen);
             listenerThread.Name = "Listener";
             listenerThread.IsBackground = true;
             listenerThread.Start();
 
-            DriverList dl = new DriverList();
-            this.DataContext = dl;
+
         }
 
         ~DriverGrid()
@@ -55,6 +58,7 @@ namespace CameraControl
         private DataGridColumn currentlySortedColumn = null;
         private void DataChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            Console.WriteLine("Data changed!");
             if (currentlySortedColumn == null)
             {
                 foreach (DataGridColumn c in Columns)
@@ -125,27 +129,24 @@ namespace CameraControl
 
         protected override void OnSelectedCellsChanged(SelectedCellsChangedEventArgs e)
         {
-            System.Console.Error.WriteLine("OnSelectedCellsChanged");
+            //System.Console.Error.WriteLine("OnSelectedCellsChanged");
             base.OnSelectedCellsChanged(e);
         }
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
-            UnselectAllCells();
-            e.Handled = true;
+            //UnselectAllCells();
+            //e.Handled = true;
             //base.OnSelectionChanged(e);
         }
 
-        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        private void testDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DriverList dl = this.DataContext as DriverList;
-            //if ((this.DataContext as DriverList).Count() == 6)
-            //{
-            //Driver fb = new Driver("3", "Frank Biela", "P2");
-            //fb.Position = 5;
-            //fb.PositionInClass = 2;
-            //dl.Add(fb);
-            //}
-            base.OnMouseDoubleClick(e);
+            if (SelectedItem == null)
+            {
+                return;
+            }
+            var selectedDriver = SelectedItem as Driver;
+            Requester.focusCamera(selectedDriver.CarNumber);
         }
 
         public void driverInfoUpdate(List<DriverInfo> drivers)
@@ -187,7 +188,32 @@ namespace CameraControl
 
         public void sessionInfoUpdate(SessionInfo sessionInfo)
         {
-            throw new NotImplementedException();
+            Dispatcher.Invoke(
+                System.Windows.Threading.DispatcherPriority.Normal,
+                new Action(
+                    delegate()
+                    {
+                        DriverList dl = DataContext as DriverList;
+                        Session s = sessionInfo.Sessions[sessionInfo.CurrentSession];
+                        if (s == null) return;
+
+                        foreach (ResultEntry re in s.Results)
+                        {
+                            Driver d = dl.First(
+                                delegate(Driver dr)
+                                {
+                                    return dr.CarNumber == re.CarNumber;
+                                }
+                                );
+                            if (d != null)
+                            {
+                                d.Position = re.Position;
+                                d.PositionInClass = re.PositionInClass;
+                            }
+                        }
+                        dl.UpdateCollection();
+                    }
+            ));
         }
     }
 }

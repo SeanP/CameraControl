@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 namespace CameraControl
 {
     public class Driver : INotifyPropertyChanged
     {
-        private string carNumber = "63";
-        private string driverName = "Sean Pivek";
-        private int position = 1;
-        private int positionInClass = 1;
-        private string carClass = "LM P2";
+        private string carNumber = "999";
+        private string driverName = "";
+        private int position = 999;
+        private int positionInClass = 999;
+        private string carClass = "";
 
         public Driver() { }
         public Driver(string number, string name, string carClazz)
@@ -102,13 +103,21 @@ namespace CameraControl
         }
     }
 
-    public class DriverList : ObservableCollection<Driver> { }
+    public class DriverList : ObservableCollection<Driver>
+    {
+        public void UpdateCollection()
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                            NotifyCollectionChangedAction.Reset));
+        }
+    }
 
 
     public abstract class DriverComparer : System.Collections.IComparer
     {
         protected bool isAscending = true;
-        public bool IsAscending {
+        public bool IsAscending
+        {
             set { isAscending = value; }
         }
         public abstract int Compare(object ox, object oy);
@@ -116,15 +125,18 @@ namespace CameraControl
 
     public class DriverNumberComparer : DriverComparer
     {
-        public DriverNumberComparer() {}
+        public DriverNumberComparer() { }
         public override int Compare(object ox, object oy)
         {
             Driver x;
             Driver y;
-            if (isAscending) {
+            if (isAscending)
+            {
                 x = ox as Driver;
                 y = oy as Driver;
-            } else {
+            }
+            else
+            {
                 y = ox as Driver;
                 x = oy as Driver;
             }
