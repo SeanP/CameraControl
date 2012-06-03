@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:c="clr-namespace:CameraControl"
-        Title="CameraControl" Height="450" Width="525" MinWidth="320">
+        Title="CameraControl" Height="450" Width="525" MinWidth="320" >
     <Window.Resources>
         <c:DriverToBrushConverter x:Key="dbc"/>
     </Window.Resources>
