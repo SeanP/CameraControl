@@ -194,8 +194,15 @@ namespace CameraControl
                     delegate()
                     {
                         DriverList dl = DataContext as DriverList;
-                        Session s = sessionInfo.Sessions[sessionInfo.CurrentSession];
-                        if (s == null) return;
+                        Session s;
+                        try
+                        {
+                            s = sessionInfo.Sessions[sessionInfo.CurrentSession];
+                        }
+                        catch (Exception e)
+                        {
+                            return;
+                        }
 
                         foreach (ResultEntry re in s.Results)
                         {
